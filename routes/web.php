@@ -7,6 +7,10 @@ use App\Http\Controllers\GenresController;
 use App\Http\Controllers\CastsController;
 use App\Http\Controllers\FilmsController;
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::get('/users', [UsersController::class, 'index'])->name('users.index');
 Route::post('/users', [UsersController::class, 'store'])->name('users.store');
 Route::get('/users/{id}', [UsersController::class, 'show'])->name('users.show');

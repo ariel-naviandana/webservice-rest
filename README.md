@@ -1,61 +1,267 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# REST API Documentation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Base URL
 
-## About Laravel
+All endpoints are based on the following base URL:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+```
+http://localhost:8000
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Users
 
-## Learning Laravel
+### 1. Get All Users
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Endpoint**: `GET /users`  
+**Description**: Retrieve a list of all users.  
+**Response**:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```json
+[
+    {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john@example.com",
+        "role": "user",
+        "created_at": "2025-04-22T12:34:56Z",
+        "updated_at": "2025-04-22T12:34:56Z"
+    }
+]
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Get User By ID
 
-## Laravel Sponsors
+**Endpoint**: `GET /users/{id}`  
+**Description**: Retrieve information about a specific user.  
+**Response**:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```json
+{
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "role": "user",
+    "created_at": "2025-04-22T12:34:56Z",
+    "updated_at": "2025-04-22T12:34:56Z"
+}
+```
 
-### Premium Partners
+### 3. Create a User
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+**Endpoint**: `POST /users`  
+**Description**: Create a new user.  
+**Request Body**:
 
-## Contributing
+```json
+{
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "password": "password123",
+    "role": "admin"
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Response**:
 
-## Code of Conduct
+```json
+{
+    "id": 2,
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "role": "admin",
+    "created_at": "2025-04-23T08:30:00Z",
+    "updated_at": "2025-04-23T08:30:00Z"
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Update a User
 
-## Security Vulnerabilities
+**Endpoint**: `PUT /users/{id}`  
+**Description**: Update an existing user.  
+**Request Body**:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```json
+{
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "password": "newpassword123",
+    "role": "critic"
+}
+```
 
-## License
+**Response**:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```json
+{
+    "id": 2,
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "role": "critic",
+    "created_at": "2025-04-23T08:30:00Z",
+    "updated_at": "2025-04-23T08:35:00Z"
+}
+```
+
+### 5. Delete a User
+
+**Endpoint**: `DELETE /users/{id}`  
+**Description**: Delete a specific user.  
+**Response**:  
+Status code `204 No Content`.
+
+---
+
+## Reviews
+
+### 1. Get All Reviews
+
+**Endpoint**: `GET /reviews`  
+**Description**: Retrieve a list of all reviews.
+
+### 2. Get Review By ID
+
+**Endpoint**: `GET /reviews/{id}`  
+**Description**: Retrieve information about a specific review.
+
+### 3. Create a Review
+
+**Endpoint**: `POST /reviews`  
+**Description**: Create a new review.  
+**Request Body**:
+
+```json
+{
+    "user_id": 1,
+    "film_id": 3,
+    "rating": 8,
+    "comment": "Great movie!",
+    "is_critic": true
+}
+```
+
+### 4. Update a Review
+
+**Endpoint**: `PUT /reviews/{id}`  
+**Description**: Update an existing review.
+
+### 5. Delete a Review
+
+**Endpoint**: `DELETE /reviews/{id}`  
+**Description**: Delete a specific review.
+
+---
+
+## Genres
+
+### 1. Get All Genres
+
+**Endpoint**: `GET /genres`  
+**Description**: Retrieve a list of all genres.
+
+### 2. Get Genre By ID
+
+**Endpoint**: `GET /genres/{id}`  
+**Description**: Retrieve information about a specific genre.
+
+### 3. Create a Genre
+
+**Endpoint**: `POST /genres`  
+**Description**: Create a new genre.  
+**Request Body**:
+
+```json
+{
+    "name": "Action"
+}
+```
+
+### 4. Update a Genre
+
+**Endpoint**: `PUT /genres/{id}`  
+**Description**: Update an existing genre.
+
+### 5. Delete a Genre
+
+**Endpoint**: `DELETE /genres/{id}`  
+**Description**: Delete a specific genre.
+
+---
+
+## Casts
+
+### 1. Get All Casts
+
+**Endpoint**: `GET /casts`  
+**Description**: Retrieve a list of all casts.
+
+### 2. Get Cast By ID
+
+**Endpoint**: `GET /casts/{id}`  
+**Description**: Retrieve information about a specific cast.
+
+### 3. Create a Cast
+
+**Endpoint**: `POST /casts`  
+**Description**: Create a new cast.  
+**Request Body**:
+
+```json
+{
+    "name": "Leonardo DiCaprio",
+    "birth_date": "1974-11-11",
+    "photo_url": "https://example.com/leonardo.jpg"
+}
+```
+
+### 4. Update a Cast
+
+**Endpoint**: `PUT /casts/{id}`  
+**Description**: Update an existing cast.
+
+### 5. Delete a Cast
+
+**Endpoint**: `DELETE /casts/{id}`  
+**Description**: Delete a specific cast.
+
+---
+
+## Films
+
+### 1. Get All Films
+
+**Endpoint**: `GET /films`  
+**Description**: Retrieve a list of all films.
+
+### 2. Get Film By ID
+
+**Endpoint**: `GET /films/{id}`  
+**Description**: Retrieve information about a specific film.
+
+### 3. Create a Film
+
+**Endpoint**: `POST /films`  
+**Description**: Create a new film.  
+**Request Body**:
+
+```json
+{
+    "title": "Inception",
+    "synopsis": "A mind-bending thriller",
+    "release_year": 2010,
+    "duration": 148,
+    "poster_url": "https://example.com/inception.jpg",
+    "director": "Christopher Nolan"
+}
+```
+
+### 4. Update a Film
+
+**Endpoint**: `PUT /films/{id}`  
+**Description**: Update an existing film.
+
+### 5. Delete a Film
+
+**Endpoint**: `DELETE /films/{id}`  
+**Description**: Delete a specific film.
