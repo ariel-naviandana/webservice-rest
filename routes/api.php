@@ -36,3 +36,5 @@ Route::post('/films', [FilmsController::class, 'store'])->name('films.store');
 Route::get('/films/{id}', [FilmsController::class, 'show'])->name('films.show');
 Route::put('/films/{id}', [FilmsController::class, 'update'])->name('films.update');
 Route::delete('/films/{id}', [FilmsController::class, 'destroy'])->name('films.destroy');
+
+Route::post('/login', [UsersController::class, 'login'])->name('users.login');

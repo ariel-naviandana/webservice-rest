@@ -111,6 +111,34 @@ http://localhost:8000/api
 **Response**:  
 Status code `204 No Content`.
 
+### 6. Login
+
+**Endpoint**: `POST /login`  
+**Description**: Create a new user.  
+**Request Body**:
+
+```json
+{
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "password": "password123",
+    "role": "admin"
+}
+```
+
+**Response**:
+
+```json
+{
+    "id": 2,
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "role": "admin",
+    "created_at": "2025-04-23T08:30:00Z",
+    "updated_at": "2025-04-23T08:30:00Z"
+}
+```
+
 ---
 
 ## Reviews

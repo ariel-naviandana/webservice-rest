@@ -65,4 +65,22 @@ class UsersController extends Controller
 
         return response()->json(null, 204);
     }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+        return response()->json([
+            'user' => $user,
+        ]);
+    }
 }
