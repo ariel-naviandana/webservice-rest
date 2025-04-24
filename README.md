@@ -114,15 +114,13 @@ Status code `204 No Content`.
 ### 6. Login
 
 **Endpoint**: `POST /login`  
-**Description**: Create a new user.  
+**Description**: Login as user.  
 **Request Body**:
 
 ```json
 {
-    "name": "Jane Doe",
     "email": "jane@example.com",
-    "password": "password123",
-    "role": "admin"
+    "password": "password123"
 }
 ```
 
