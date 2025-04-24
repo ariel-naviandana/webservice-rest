@@ -9,7 +9,7 @@ class FilmsController extends Controller
 {
     public function index()
     {
-        return response()->json(Film::with(['genres', 'casts', 'reviews'])->get());
+        return response()->json(Film::with(['genres', 'characters', 'reviews'])->get());
     }
 
     public function store(Request $request)
@@ -31,7 +31,7 @@ class FilmsController extends Controller
     public function show($id)
     {
         $film = Film::findOrFail($id);
-        return response()->json($film->load(['genres', 'casts', 'reviews']));
+        return response()->json($film->load(['genres', 'characters', 'reviews']));
     }
 
     public function update(Request $request, $id)
