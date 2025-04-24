@@ -24,12 +24,14 @@ Route::post('/genres', [GenresController::class, 'store'])->name('genres.store')
 Route::get('/genres/{id}', [GenresController::class, 'show'])->name('genres.show');
 Route::put('/genres/{id}', [GenresController::class, 'update'])->name('genres.update');
 Route::delete('/genres/{id}', [GenresController::class, 'destroy'])->name('genres.destroy');
+Route::get('/genres/{id}/films', [GenresController::class, 'films'])->name('genres.films');
 
 Route::get('/casts', [CastsController::class, 'index'])->name('casts.index');
 Route::post('/casts', [CastsController::class, 'store'])->name('casts.store');
 Route::get('/casts/{id}', [CastsController::class, 'show'])->name('casts.show');
 Route::put('/casts/{id}', [CastsController::class, 'update'])->name('casts.update');
 Route::delete('/casts/{id}', [CastsController::class, 'destroy'])->name('casts.destroy');
+Route::get('/casts/{id}/films', [CastsController::class, 'films'])->name('casts.films');
 
 Route::get('/films', [FilmsController::class, 'index'])->name('films.index');
 Route::post('/films', [FilmsController::class, 'store'])->name('films.store');

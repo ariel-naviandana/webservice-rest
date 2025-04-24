@@ -49,4 +49,11 @@ class GenresController extends Controller
 
         return response()->json(null, 204);
     }
+
+    public function films($id)
+    {
+        $genre = Genre::with('films')->findOrFail($id);
+        return response()->json($genre->films);
+    }
+
 }

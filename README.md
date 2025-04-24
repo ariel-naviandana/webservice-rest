@@ -215,6 +215,11 @@ Status code `204 No Content`.
 **Endpoint**: `DELETE /genres/{id}`  
 **Description**: Delete a specific genre.
 
+### 6. Get Films By Genre
+
+**Endpoint**: `GET /genres/{id}/films`  
+**Description**: Retrieve information about films with specific genre.
+
 ---
 
 ## Casts
@@ -252,6 +257,11 @@ Status code `204 No Content`.
 
 **Endpoint**: `DELETE /casts/{id}`  
 **Description**: Delete a specific cast.
+
+### 6. Get Films By Cast
+
+**Endpoint**: `GET /casts/{id}/films`  
+**Description**: Retrieve information about films with specific cast.
 
 ---
 

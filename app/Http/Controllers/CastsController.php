@@ -53,4 +53,10 @@ class CastsController extends Controller
 
         return response()->json(null, 204);
     }
+
+    public function films($id)
+    {
+        $cast = Cast::with('films')->findOrFail($id);
+        return response()->json($cast->films);
+    }
 }
