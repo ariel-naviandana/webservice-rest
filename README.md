@@ -5,7 +5,7 @@
 All endpoints are based on the following base URL:
 
 ```
-http://localhost:8000
+http://localhost:8000/api
 ```
 
 ---
