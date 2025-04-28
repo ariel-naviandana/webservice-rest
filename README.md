@@ -48,35 +48,7 @@ http://localhost:8000/api
 }
 ```
 
-### 3. Create a User
-
-**Endpoint**: `POST /users`  
-**Description**: Create a new user.  
-**Request Body**:
-
-```json
-{
-    "name": "Jane Doe",
-    "email": "jane@example.com",
-    "password": "password123",
-    "role": "admin"
-}
-```
-
-**Response**:
-
-```json
-{
-    "id": 2,
-    "name": "Jane Doe",
-    "email": "jane@example.com",
-    "role": "admin",
-    "created_at": "2025-04-23T08:30:00Z",
-    "updated_at": "2025-04-23T08:30:00Z"
-}
-```
-
-### 4. Update a User
+### 3. Update a User
 
 **Endpoint**: `PUT /users/{id}`  
 **Description**: Update an existing user.  
@@ -104,40 +76,12 @@ http://localhost:8000/api
 }
 ```
 
-### 5. Delete a User
+### 4. Delete a User
 
 **Endpoint**: `DELETE /users/{id}`  
 **Description**: Delete a specific user.  
 **Response**:  
 Status code `204 No Content`.
-
-### 6. Login
-
-**Endpoint**: `POST /login`  
-**Description**: Create a new user.  
-**Request Body**:
-
-```json
-{
-    "name": "Jane Doe",
-    "email": "jane@example.com",
-    "password": "password123",
-    "role": "admin"
-}
-```
-
-**Response**:
-
-```json
-{
-    "id": 2,
-    "name": "Jane Doe",
-    "email": "jane@example.com",
-    "role": "admin",
-    "created_at": "2025-04-23T08:30:00Z",
-    "updated_at": "2025-04-23T08:30:00Z"
-}
-```
 
 ---
 
@@ -303,3 +247,63 @@ Status code `204 No Content`.
 
 **Endpoint**: `DELETE /films/{id}`  
 **Description**: Delete a specific film.
+
+---
+
+## Authentication
+
+### 1. Login
+
+**Endpoint**: `POST /login`  
+**Description**: Login as a user.  
+**Request Body**:
+
+```json
+{
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "password": "password123",
+    "role": "admin"
+}
+```
+
+**Response**:
+
+```json
+{
+    "id": 2,
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "role": "admin",
+    "created_at": "2025-04-23T08:30:00Z",
+    "updated_at": "2025-04-23T08:30:00Z"
+}
+```
+
+### 2. Regsiter
+
+**Endpoint**: `POST /register`  
+**Description**: Create a new user.  
+**Request Body**:
+
+```json
+{
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "password": "password123",
+    "role": "admin"
+}
+```
+
+**Response**:
+
+```json
+{
+    "id": 2,
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "role": "admin",
+    "created_at": "2025-04-23T08:30:00Z",
+    "updated_at": "2025-04-23T08:30:00Z"
+}
+```

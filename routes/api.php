@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ReviewsController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\CastsController;
 use App\Http\Controllers\FilmsController;
 
 Route::get('/users', [UsersController::class, 'index'])->name('users.index');
-Route::post('/users', [UsersController::class, 'store'])->name('users.store');
 Route::get('/users/{id}', [UsersController::class, 'show'])->name('users.show');
 Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
 Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
@@ -39,4 +39,5 @@ Route::get('/films/{id}', [FilmsController::class, 'show'])->name('films.show');
 Route::put('/films/{id}', [FilmsController::class, 'update'])->name('films.update');
 Route::delete('/films/{id}', [FilmsController::class, 'destroy'])->name('films.destroy');
 
-Route::post('/login', [UsersController::class, 'login'])->name('users.login');
+Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
