@@ -260,10 +260,8 @@ Status code `204 No Content`.
 
 ```json
 {
-    "name": "Jane Doe",
     "email": "jane@example.com",
-    "password": "password123",
-    "role": "admin"
+    "password": "password123"
 }
 ```
 
