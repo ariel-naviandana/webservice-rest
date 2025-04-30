@@ -38,6 +38,8 @@ Route::post('/films', [FilmsController::class, 'store'])->name('films.store');
 Route::get('/films/{id}', [FilmsController::class, 'show'])->name('films.show');
 Route::put('/films/{id}', [FilmsController::class, 'update'])->name('films.update');
 Route::delete('/films/{id}', [FilmsController::class, 'destroy'])->name('films.destroy');
+Route::put('/films/{id}/add-cast/{castId}', [FilmsController::class, 'addCast'])->name('films.addCast');
+Route::put('/films/{id}/add-genre/{genreId}', [FilmsController::class, 'addGenre'])->name('films.addGenre');
 
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');

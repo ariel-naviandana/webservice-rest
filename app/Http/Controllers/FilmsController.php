@@ -59,4 +59,25 @@ class FilmsController extends Controller
 
         return response()->json(null, 204);
     }
+
+    public function addCast(Request $request)
+    {
+        $film = Film::findOrFail($request->id);
+
+        $request->validate([
+            'character' => 'required|string',
+        ]);
+        $film->characters()->attach($request->castId, ['character' => $request->character]);
+
+        return response()->json($film->load(['genres', 'characters', 'reviews']));
+    }
+
+    public function addGenre(Request $request)
+    {
+        $film = Film::findOrFail($request->id);
+
+        $film->genres()->attach($request->genreId);
+
+        return response()->json($film->load(['genres', 'characters', 'reviews']));
+    }
 }

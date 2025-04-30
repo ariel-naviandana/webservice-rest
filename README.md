@@ -248,6 +248,23 @@ Status code `204 No Content`.
 **Endpoint**: `DELETE /films/{id}`  
 **Description**: Delete a specific film.
 
+### 5. Update Film Genres
+
+**Endpoint**: `PUT /films/{id}/add-genre/{genreId}`  
+**Description**: Add genre to a specific film.
+
+### 5. Update Film Casts
+
+**Endpoint**: `PUT /films/{id}/add-cast/{castId}`  
+**Description**: Add cast to a specific film.   
+**Request Body**:
+
+```json
+{
+    "character": "Robert Fischer"
+}
+```
+
 ---
 
 ## Authentication
