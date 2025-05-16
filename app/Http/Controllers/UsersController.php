@@ -27,6 +27,7 @@ class UsersController extends Controller
             'name' => 'string',
             'email' => 'email|unique:users,email,' . $id,
             'password' => 'string|min:6',
+            'photo_url' => 'nullable|url',
             'role' => 'in:admin,user,critic',
         ]);
 
