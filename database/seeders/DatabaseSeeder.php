@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
             DB::table('casts')->insert([
                 'name' => $faker->name,
                 'birth_date' => $faker->optional()->date(),
-                'photo_url' => $faker->imageUrl(200, 300, 'people'),
+                'photo_url' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -68,7 +68,7 @@ class DatabaseSeeder extends Seeder
                 'synopsis' => $faker->paragraph(),
                 'release_year' => $faker->year(),
                 'duration' => $faker->numberBetween(80, 180),
-                'poster_url' => $faker->imageUrl(300, 450, 'movies'),
+                'poster_url' => null,
                 'director' => $faker->name(),
                 'rating_avg' => 0,
                 'total_reviews' => 0,
