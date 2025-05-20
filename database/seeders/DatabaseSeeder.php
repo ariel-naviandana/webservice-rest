@@ -26,6 +26,24 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        DB::table('users')->insert([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('admin123'),
+            'role' => 'admin',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'User',
+            'email' => 'user@gmail.com',
+            'password' => bcrypt('user123'),
+            'role' => 'user',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         for ($x = 1; $x <= 10; $x++) {
             DB::table('genres')->insert([
                 'name' => ucfirst($faker->unique()->word),
