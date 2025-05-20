@@ -11,20 +11,24 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
-            'role' => 'nullable|in:admin,user,critic',
         ]);
 
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => $validated['role'] ?? 'user',
+            'role' => 'user',
         ]);
 
-        return response()->json($user, 201);
+        $token = $user->createToken('api-token')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ], 200);
     }
 
     public function login(Request $request)
@@ -40,8 +44,23 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
+        $token = $user->createToken('api-token')->plainTextToken;
+
         return response()->json([
             'user' => $user,
+            'token' => $token,
+        ], 200);
+    }
+
+    public function assignRole(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'role' => 'required|in:user,critic,admin',
         ]);
+
+        $user = User::findOrFail($id);
+        $user->update(['role' => $validated['role']]);
+
+        return response()->json($user, 200);
     }
 }
