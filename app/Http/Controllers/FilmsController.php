@@ -39,11 +39,11 @@ class FilmsController extends Controller
         ]);
 
         if (!empty($validated['cast_ids'])) {
-            $film->characters()->attach($validated['cast_ids']);
+            $film->characters()->sync($validated['cast_ids']);
         }
 
         if (!empty($validated['genre_ids'])) {
-            $film->genres()->attach($validated['genre_ids']);
+            $film->genres()->sync($validated['genre_ids']);
         }
 
         return response()->json($film->load(['genres', 'characters', 'reviews']), 201);
