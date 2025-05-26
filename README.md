@@ -256,14 +256,7 @@ Status code `204 No Content`.
 ### 5. Update Film Casts
 
 **Endpoint**: `PUT /films/{id}/add-cast/{castId}`  
-**Description**: Add cast to a specific film.   
-**Request Body**:
-
-```json
-{
-    "character": "Robert Fischer"
-}
-```
+**Description**: Add cast to a specific film.
 
 ---
 

@@ -39,8 +39,7 @@ class FilmsController extends Controller
         ]);
 
         if (!empty($validated['cast_ids'])) {
-            $castData = array_fill_keys($validated['cast_ids'], ['character' => 'Unknown']);
-            $film->characters()->attach($castData);
+            $film->characters()->attach($validated['cast_ids']);
         }
 
         if (!empty($validated['genre_ids'])) {
@@ -102,7 +101,6 @@ class FilmsController extends Controller
 
         $request->validate([
             'castId' => 'required|exists:casts,id',
-            'character' => 'required|string',
         ]);
         $film->characters()->attach($request->castId);
 
