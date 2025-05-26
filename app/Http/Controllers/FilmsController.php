@@ -78,8 +78,7 @@ class FilmsController extends Controller
         }, ARRAY_FILTER_USE_KEY));
 
         if (isset($validated['cast_ids'])) {
-            $castData = array_fill_keys($validated['cast_ids'], ['character' => 'Unknown']);
-            $film->characters()->sync($castData);
+            $film->characters()->sync($validated['cast_ids']);
         }
 
         if (isset($validated['genre_ids'])) {
@@ -105,7 +104,7 @@ class FilmsController extends Controller
             'castId' => 'required|exists:casts,id',
             'character' => 'required|string',
         ]);
-        $film->characters()->attach($request->castId, ['character' => $request->character]);
+        $film->characters()->attach($request->castId);
 
         return response()->json($film->load(['genres', 'characters', 'reviews']));
     }

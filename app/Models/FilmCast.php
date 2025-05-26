@@ -11,6 +11,5 @@ class FilmCast extends Model
     protected $fillable = [
         'film_id',
         'cast_id',
-        'character',
     ];
 }

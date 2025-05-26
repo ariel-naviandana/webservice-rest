@@ -24,7 +24,7 @@ class Film extends Model
 
     public function characters()
     {
-        return $this->belongsToMany(Cast::class, 'film_cast')->withPivot('character');
+        return $this->belongsToMany(Cast::class, 'film_cast');
     }
 
     public function reviews()
