@@ -38,6 +38,8 @@ class ReviewsController extends Controller
         $review = Review::findOrFail($id);
 
         $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'film_id' => 'required|exists:films,id',
             'rating' => 'integer|min:1|max:10',
             'comment' => 'nullable|string',
             'is_critic' => 'boolean',

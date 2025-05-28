@@ -8,10 +8,12 @@ use App\Http\Controllers\GenresController;
 use App\Http\Controllers\CastsController;
 use App\Http\Controllers\FilmsController;
 use App\Http\Middleware\CheckRole;
+use App\Http\Middleware\CheckTokenExpiry;
+use App\Http\Middleware\ReviewOwnerOrAdmin;
 
 // Public Routes
-Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
-Route::post('/login', [AuthController::class, 'login'])->name('auth.login')->middleware('throttle:10,1');
+Route::post('/register', [AuthController::class, 'register'])->name('auth.register')->middleware('throttle:5,1');;
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login')->middleware('throttle:5,1');
 
 // Public Read-Only Routes
 Route::get('/films', [FilmsController::class, 'index'])->name('films.index');
@@ -24,15 +26,19 @@ Route::get('/casts/{id}', [CastsController::class, 'show'])->name('casts.show');
 Route::get('/casts/{id}/films', [CastsController::class, 'films'])->name('casts.films');
 
 // Authenticated Routes
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', CheckTokenExpiry::class])->group(function () {
     Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews.index');
     Route::get('/reviews/{id}', [ReviewsController::class, 'show'])->name('reviews.show');
     Route::post('/reviews', [ReviewsController::class, 'store'])->name('reviews.store');
-    Route::put('/reviews/{id}', [ReviewsController::class, 'update'])->name('reviews.update');
-    Route::delete('/reviews/{id}', [ReviewsController::class, 'destroy'])->name('reviews.destroy');
+
+    Route::middleware([ReviewOwnerOrAdmin::class])->group(function () {
+        Route::put('/reviews/{id}', [ReviewsController::class, 'update'])->name('reviews.update');
+        Route::delete('/reviews/{id}', [ReviewsController::class, 'destroy'])->name('reviews.destroy');
+    });
 
     Route::get('/users/{id}', [UsersController::class, 'show'])->name('users.show');
     Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
     // Admin-Only Routes
     Route::middleware([CheckRole::class . ':admin'])->group(function () {
