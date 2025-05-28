@@ -10,60 +10,65 @@ use App\Http\Controllers\FilmsController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\CheckTokenExpiry;
 use App\Http\Middleware\ReviewOwnerOrAdmin;
+use App\Http\Middleware\SecurityHeaders;
 
-// Public Routes - Rate limit ketat untuk register/login
-Route::post('/register', [AuthController::class, 'register'])
-    ->name('auth.register')
-    ->middleware('throttle:5,1');
-Route::post('/login', [AuthController::class, 'login'])
-    ->name('auth.login')
-    ->middleware('throttle:5,1');
+// Semua route API dibungkus group, langsung pasang middleware SecurityHeaders
+Route::middleware([SecurityHeaders::class])->group(function () {
 
-// Public Read-Only Routes - Rate limit default
-Route::middleware('throttle:60,1')->group(function () {
-    Route::get('/films', [FilmsController::class, 'index'])->name('films.index');
-    Route::get('/films/{id}', [FilmsController::class, 'show'])->name('films.show');
-    Route::get('/genres', [GenresController::class, 'index'])->name('genres.index');
-    Route::get('/genres/{id}', [GenresController::class, 'show'])->name('genres.show');
-    Route::get('/genres/{id}/films', [GenresController::class, 'films'])->name('genres.films');
-    Route::get('/casts', [CastsController::class, 'index'])->name('casts.index');
-    Route::get('/casts/{id}', [CastsController::class, 'show'])->name('casts.show');
-    Route::get('/casts/{id}/films', [CastsController::class, 'films'])->name('casts.films');
-});
+    // Public Routes - Rate limit ketat untuk register/login
+    Route::post('/register', [AuthController::class, 'register'])
+        ->name('auth.register')
+        ->middleware('throttle:5,1');
+    Route::post('/login', [AuthController::class, 'login'])
+        ->name('auth.login')
+        ->middleware('throttle:5,1');
 
-// Authenticated Routes - Rate limit lebih longgar
-Route::middleware(['auth:sanctum', 'throttle:100,1', CheckTokenExpiry::class])->group(function () {
-    Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews.index');
-    Route::get('/reviews/{id}', [ReviewsController::class, 'show'])->name('reviews.show');
-    Route::post('/reviews', [ReviewsController::class, 'store'])->name('reviews.store');
-
-    Route::middleware([ReviewOwnerOrAdmin::class])->group(function () {
-        Route::put('/reviews/{id}', [ReviewsController::class, 'update'])->name('reviews.update');
-        Route::delete('/reviews/{id}', [ReviewsController::class, 'destroy'])->name('reviews.destroy');
+    // Public Read-Only Routes - Rate limit default
+    Route::middleware('throttle:60,1')->group(function () {
+        Route::get('/films', [FilmsController::class, 'index'])->name('films.index');
+        Route::get('/films/{id}', [FilmsController::class, 'show'])->name('films.show');
+        Route::get('/genres', [GenresController::class, 'index'])->name('genres.index');
+        Route::get('/genres/{id}', [GenresController::class, 'show'])->name('genres.show');
+        Route::get('/genres/{id}/films', [GenresController::class, 'films'])->name('genres.films');
+        Route::get('/casts', [CastsController::class, 'index'])->name('casts.index');
+        Route::get('/casts/{id}', [CastsController::class, 'show'])->name('casts.show');
+        Route::get('/casts/{id}/films', [CastsController::class, 'films'])->name('casts.films');
     });
 
-    Route::get('/users/{id}', [UsersController::class, 'show'])->name('users.show');
-    Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    // Authenticated Routes - Rate limit lebih longgar
+    Route::middleware(['auth:sanctum', 'throttle:100,1', CheckTokenExpiry::class])->group(function () {
+        Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews.index');
+        Route::get('/reviews/{id}', [ReviewsController::class, 'show'])->name('reviews.show');
+        Route::post('/reviews', [ReviewsController::class, 'store'])->name('reviews.store');
 
-    // Admin-Only Routes - Rate limit lebih longgar untuk admin
-    Route::middleware([CheckRole::class . ':admin', 'throttle:200,1'])->group(function () {
-        Route::get('/users', [UsersController::class, 'index'])->name('users.index');
-        Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
-        Route::put('/users/{id}/role', [AuthController::class, 'assignRole'])->name('users.assignRole');
+        Route::middleware([ReviewOwnerOrAdmin::class])->group(function () {
+            Route::put('/reviews/{id}', [ReviewsController::class, 'update'])->name('reviews.update');
+            Route::delete('/reviews/{id}', [ReviewsController::class, 'destroy'])->name('reviews.destroy');
+        });
 
-        Route::post('/films', [FilmsController::class, 'store'])->name('films.store');
-        Route::put('/films/{id}', [FilmsController::class, 'update'])->name('films.update');
-        Route::delete('/films/{id}', [FilmsController::class, 'destroy'])->name('films.destroy');
-        Route::put('/films/{id}/add-cast/{castId}', [FilmsController::class, 'addCast'])->name('films.addCast');
-        Route::put('/films/{id}/add-genre/{genreId}', [FilmsController::class, 'addGenre'])->name('films.addGenre');
+        Route::get('/users/{id}', [UsersController::class, 'show'])->name('users.show');
+        Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
+        Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-        Route::post('/genres', [GenresController::class, 'store'])->name('genres.store');
-        Route::put('/genres/{id}', [GenresController::class, 'update'])->name('genres.update');
-        Route::delete('/genres/{id}', [GenresController::class, 'destroy'])->name('genres.destroy');
+        // Admin-Only Routes - Rate limit lebih longgar untuk admin
+        Route::middleware([CheckRole::class . ':admin', 'throttle:200,1'])->group(function () {
+            Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+            Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
+            Route::put('/users/{id}/role', [AuthController::class, 'assignRole'])->name('users.assignRole');
 
-        Route::post('/casts', [CastsController::class, 'store'])->name('casts.store');
-        Route::put('/casts/{id}', [CastsController::class, 'update'])->name('casts.update');
-        Route::delete('/casts/{id}', [CastsController::class, 'destroy'])->name('casts.destroy');
+            Route::post('/films', [FilmsController::class, 'store'])->name('films.store');
+            Route::put('/films/{id}', [FilmsController::class, 'update'])->name('films.update');
+            Route::delete('/films/{id}', [FilmsController::class, 'destroy'])->name('films.destroy');
+            Route::put('/films/{id}/add-cast/{castId}', [FilmsController::class, 'addCast'])->name('films.addCast');
+            Route::put('/films/{id}/add-genre/{genreId}', [FilmsController::class, 'addGenre'])->name('films.addGenre');
+
+            Route::post('/genres', [GenresController::class, 'store'])->name('genres.store');
+            Route::put('/genres/{id}', [GenresController::class, 'update'])->name('genres.update');
+            Route::delete('/genres/{id}', [GenresController::class, 'destroy'])->name('genres.destroy');
+
+            Route::post('/casts', [CastsController::class, 'store'])->name('casts.store');
+            Route::put('/casts/{id}', [CastsController::class, 'update'])->name('casts.update');
+            Route::delete('/casts/{id}', [CastsController::class, 'destroy'])->name('casts.destroy');
+        });
     });
 });

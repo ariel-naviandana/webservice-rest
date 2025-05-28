@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class GenresController extends Controller
 {
     public function index()
     {
+        Log::info('List all genres', [
+            'user_id' => request()->user()?->id,
+            'ip' => request()->ip(),
+        ]);
         return response()->json(Genre::all());
     }
 
@@ -20,12 +25,26 @@ class GenresController extends Controller
 
         $genre = Genre::create($validated);
 
+        Log::info('Genre created', [
+            'genre_id' => $genre->id,
+            'user_id' => $request->user()?->id,
+            'ip' => $request->ip(),
+            'name' => $genre->name,
+        ]);
+
         return response()->json($genre, 201);
     }
 
     public function show($id)
     {
         $genre = Genre::findOrFail($id);
+
+        Log::info('Show genre details', [
+            'genre_id' => $id,
+            'user_id' => request()->user()?->id,
+            'ip' => request()->ip(),
+        ]);
+
         return response()->json($genre);
     }
 
@@ -39,6 +58,13 @@ class GenresController extends Controller
 
         $genre->update($validated);
 
+        Log::info('Genre updated', [
+            'genre_id' => $id,
+            'user_id' => $request->user()?->id,
+            'ip' => $request->ip(),
+            'name' => $genre->name,
+        ]);
+
         return response()->json($genre);
     }
 
@@ -47,13 +73,25 @@ class GenresController extends Controller
         $genre = Genre::findOrFail($id);
         $genre->delete();
 
+        Log::info('Genre deleted', [
+            'genre_id' => $id,
+            'user_id' => request()->user()?->id,
+            'ip' => request()->ip(),
+        ]);
+
         return response()->json(null, 204);
     }
 
     public function films($id)
     {
         $genre = Genre::with('films')->findOrFail($id);
+
+        Log::info('List films by genre', [
+            'genre_id' => $id,
+            'user_id' => request()->user()?->id,
+            'ip' => request()->ip(),
+        ]);
+
         return response()->json($genre->films);
     }
-
 }

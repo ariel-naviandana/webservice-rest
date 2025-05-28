@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Film;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class FilmsController extends Controller
 {
     public function index()
     {
+        Log::info('List all films', [
+            'user_id' => request()->user()?->id,
+            'ip' => request()->ip(),
+        ]);
         return response()->json(Film::with(['genres', 'characters', 'reviews'])->get());
     }
 
@@ -46,12 +51,26 @@ class FilmsController extends Controller
             $film->genres()->sync($validated['genre_ids']);
         }
 
+        Log::info('Film created', [
+            'film_id' => $film->id,
+            'user_id' => $request->user()?->id,
+            'ip' => $request->ip(),
+            'title' => $film->title,
+        ]);
+
         return response()->json($film->load(['genres', 'characters', 'reviews']), 201);
     }
 
     public function show($id)
     {
         $film = Film::findOrFail($id);
+
+        Log::info('Show film details', [
+            'film_id' => $id,
+            'user_id' => request()->user()?->id,
+            'ip' => request()->ip(),
+        ]);
+
         return response()->json($film->load(['genres', 'characters', 'reviews']));
     }
 
@@ -84,6 +103,13 @@ class FilmsController extends Controller
             $film->genres()->sync($validated['genre_ids']);
         }
 
+        Log::info('Film updated', [
+            'film_id' => $id,
+            'user_id' => $request->user()?->id,
+            'ip' => $request->ip(),
+            'title' => $film->title,
+        ]);
+
         return response()->json($film->load(['genres', 'characters', 'reviews']));
     }
 
@@ -91,6 +117,12 @@ class FilmsController extends Controller
     {
         $film = Film::findOrFail($id);
         $film->delete();
+
+        Log::info('Film deleted', [
+            'film_id' => $id,
+            'user_id' => request()->user()?->id,
+            'ip' => request()->ip(),
+        ]);
 
         return response()->json(null, 204);
     }
@@ -104,6 +136,13 @@ class FilmsController extends Controller
         ]);
         $film->characters()->attach($request->castId);
 
+        Log::info('Cast added to film', [
+            'film_id' => $film->id,
+            'cast_id' => $request->castId,
+            'user_id' => $request->user()?->id,
+            'ip' => $request->ip(),
+        ]);
+
         return response()->json($film->load(['genres', 'characters', 'reviews']));
     }
 
@@ -115,6 +154,13 @@ class FilmsController extends Controller
             'genreId' => 'required|exists:genres,id',
         ]);
         $film->genres()->attach($request->genreId);
+
+        Log::info('Genre added to film', [
+            'film_id' => $film->id,
+            'genre_id' => $request->genreId,
+            'user_id' => $request->user()?->id,
+            'ip' => $request->ip(),
+        ]);
 
         return response()->json($film->load(['genres', 'characters', 'reviews']));
     }
