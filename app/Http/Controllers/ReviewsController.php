@@ -95,8 +95,6 @@ class ReviewsController extends Controller
             $review = Review::findOrFail($id);
 
             $validated = $request->validate([
-                'user_id' => 'required|exists:users,id',
-                'film_id' => 'required|exists:films,id',
                 'rating' => 'integer|min:1|max:10',
                 'comment' => 'nullable|string',
                 'is_critic' => 'boolean',
@@ -106,9 +104,7 @@ class ReviewsController extends Controller
 
             Log::info('Review updated', [
                 'review_id' => $id,
-                'user_id' => $request->user()?->id,
                 'ip' => $request->ip(),
-                'film_id' => $review->film_id,
                 'rating' => $review->rating,
             ]);
 

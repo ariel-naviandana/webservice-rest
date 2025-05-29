@@ -36,7 +36,7 @@ Route::middleware([SecurityHeaders::class])->group(function () {
     });
 
     // Authenticated Routes - Rate limit lebih longgar
-    Route::middleware(['auth:sanctum', 'throttle:100,1', CheckTokenExpiry::class])->group(function () {
+    Route::middleware(['auth:sanctum', CheckTokenExpiry::class])->group(function () {
         Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews.index');
         Route::get('/reviews/{id}', [ReviewsController::class, 'show'])->name('reviews.show');
         Route::post('/reviews', [ReviewsController::class, 'store'])->name('reviews.store');
@@ -51,7 +51,7 @@ Route::middleware([SecurityHeaders::class])->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
         // Admin-Only Routes - Rate limit lebih longgar untuk admin
-        Route::middleware([CheckRole::class . ':admin', 'throttle:200,1'])->group(function () {
+        Route::middleware([CheckRole::class . ':admin'])->group(function () {
             Route::get('/users', [UsersController::class, 'index'])->name('users.index');
             Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
             Route::put('/users/{id}/role', [AuthController::class, 'assignRole'])->name('users.assignRole');
